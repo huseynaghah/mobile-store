@@ -1,9 +1,32 @@
-import { getAllUsers} from "./api/request.js";
+import { getAllUsers ,getCurrentUser} from "./api/request.js";
 import { User } from "./user.js";
 
 const loginForm = document.querySelector("#loginForm");
 const usernameInp = document.querySelector("#usernameInp");
 const passwordInp = document.querySelector("#passwordInp");
+
+let currentUserId = localStorage.getItem("currentUserId") || null;
+let currentUser = null;
+
+if (currentUserId) {
+    getCurrentUser(currentUserId)
+        .then(res => {
+            currentUser = res.data;
+
+            if (currentUser) {
+               window.location = "./index.html";
+            } else {
+                localStorage.removeItem('currentUserId');
+            }
+
+
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
+}
+
 
 
 loginForm.addEventListener("submit", async (e)=>{
@@ -23,8 +46,9 @@ loginForm.addEventListener("submit", async (e)=>{
         return;
     }
 
-    alert("Login successfully");
+    
     localStorage.setItem("currentUserId", targetUser.id)
-
+    alert("Login successfully");
+    window.location = "./"
 
 })

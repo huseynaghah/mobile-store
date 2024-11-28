@@ -46,3 +46,28 @@ export async function createUser(userdata) {
     return { data, error }
 }
 
+
+export async function getCurrentUser(id) {
+
+    let data = null;
+    let error = null;
+
+    await axios.get(baseUrl.users + id)
+        .then(res => data = res.data)
+        .catch(fatal => error = fatal)
+
+    return { data, error }
+}
+
+export async function addFavorite(id, productData) {
+
+    let data = null;
+    let error = null;
+
+    await axios.patch(baseUrl.users + id , productData)
+        .then(res => data = res.data)
+        .catch(fatal => error = fatal)
+
+    return { data, error }
+}
+
